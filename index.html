@@ -2200,33 +2200,232 @@ function calcAge(){
 function clearDob(){document.getElementById('bkDob').value='';}
 function closeBookingOutside(e){if(e.target===document.getElementById('bookingOverlay'))closeBooking();}
 function closeBooking(){document.getElementById('bookingOverlay').classList.remove('open');document.body.style.overflow='';}
-function gotoDashboard(){closeBooking();window.location.href='halsaa-patient-responsive.html';}
+function gotoDashboard(){closeBooking();window.location.href='halsaa-patient-responsive__5_.html';}
 
-// LOGIN & REGISTER MODAL JS
-const roleInfo={patient:{icon:'👤',title:'Patient Login',dash:'halsaa-patient-responsive.html'},receptionist:{icon:'💁',title:'Receptionist Login',dash:'halsaa-receptionist-responsive.html'},doctor:{icon:'👨‍⚕️',title:'Doctor Login',dash:'halsaa-doctor-responsive.html'},lab:{icon:'🧪',title:'Lab Tech Login',dash:'halsaa-lab-responsive.html'},admin:{icon:'🏥',title:'Clinic Admin Login',dash:'halsaa-admin-responsive.html'}};
-const demoUsers={'9876543210':['patient'],'9999999999':['patient'],'8888888888':['doctor','admin'],'7777777777':['receptionist'],'6666666666':['lab'],'5555555555':['admin']};
-var lmCurrentRole='patient',lmCurrentMobile='',rmCurrentRole='patient',rmCurrentMobile='';
-function openLoginModal(role){lmCurrentRole=role||'patient';var info=roleInfo[lmCurrentRole]||roleInfo.patient;document.getElementById('lmRoleIcon').textContent=info.icon;document.getElementById('lmRoleTitle').textContent=info.title;['lmMobile','lmOTP'].forEach(function(id){document.getElementById(id).value='';});['lmMobileMsg','lmOTPMsg'].forEach(function(id){document.getElementById(id).textContent='';});['lmMobileBtn','lmOTPBtn'].forEach(function(id){document.getElementById(id).style.display='none';});document.getElementById('lmStepMobile').style.display='block';document.getElementById('lmStepOTP').style.display='none';document.getElementById('lmStepRoles').style.display='none';var o=document.getElementById('loginModalOverlay'),s=document.getElementById('loginModalSheet');o.style.opacity='1';o.style.pointerEvents='all';setTimeout(function(){s.style.transform='translateY(0)';},10);}
-function closeLoginModal(){var o=document.getElementById('loginModalOverlay'),s=document.getElementById('loginModalSheet');s.style.transform='translateY(100%)';setTimeout(function(){o.style.opacity='0';o.style.pointerEvents='none';},380);}
-function lmDetect(){var mobile=document.getElementById('lmMobile').value.trim(),msg=document.getElementById('lmMobileMsg'),btn=document.getElementById('lmMobileBtn');if(mobile.length===10){if(demoUsers[mobile]){msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">&#10003; Welcome back! OTP will be sent.</span>';btn.style.display='block';}else{msg.innerHTML='<span style="color:#FF6B6B;font-weight:600;">&#10007; User not found. <a onclick="closeLoginModal();openRegisterModal()" style="color:#00C9A7;cursor:pointer;text-decoration:underline;">Please Register</a></span>';btn.style.display='none';}}else{msg.textContent='';btn.style.display='none';}}
-function lmSendOTP(){lmCurrentMobile=document.getElementById('lmMobile').value.trim();document.getElementById('lmOTPSubtitle').textContent='OTP sent to +91 '+lmCurrentMobile;document.getElementById('lmStepMobile').style.display='none';document.getElementById('lmStepOTP').style.display='block';}
-function lmVerifyOTP(){var otp=document.getElementById('lmOTP').value.trim(),msg=document.getElementById('lmOTPMsg'),btn=document.getElementById('lmOTPBtn');if(otp.length===4){if(otp==='1234'){msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">✅ OTP Verified!</span>';btn.style.display='block';}else{msg.innerHTML='<span style="color:#FF6B6B;">❌ Invalid OTP. Try 1234</span>';btn.style.display='none';}}else{msg.textContent='';btn.style.display='none';}}
-function lmConfirmOTP(){var roles=demoUsers[lmCurrentMobile]||[lmCurrentRole];if(roles.length>1){document.getElementById('lmStepOTP').style.display='none';document.getElementById('lmStepRoles').style.display='block';var list=document.getElementById('lmRoleList');list.innerHTML='';roles.forEach(function(r){var info=roleInfo[r]||roleInfo.patient;var a=document.createElement('a');a.style.cssText='display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid rgba(0,201,167,.2);border-radius:13px;cursor:pointer;margin-bottom:8px;background:#fff;';a.innerHTML='<span style="font-size:1.6rem;">'+info.icon+'</span><div style="flex:1;font-size:.88rem;font-weight:700;color:#0D2B26;">'+info.title.replace(' Login','')+'</div><span style="font-size:.75rem;color:#00C9A7;font-weight:700;">Open &#8594;</span>';a.onclick=(function(role){return function(){lmGoToDash(role);};})(r);list.appendChild(a);});}else{lmGoToDash(roles[0]);}}
-function lmGoToDash(role){var info=roleInfo[role]||roleInfo.patient;closeLoginModal();setTimeout(function(){window.location.href=info.dash;},400);}
-function lmBackToMobile(){document.getElementById('lmStepOTP').style.display='none';document.getElementById('lmStepMobile').style.display='block';}
-function openRegisterModal(role){rmCurrentRole=role||'patient';var icons={patient:'👤',clinic:'🏥'},titles={patient:'Patient Registration',clinic:'Clinic / Lab Registration'};document.getElementById('rmRoleIcon').textContent=icons[rmCurrentRole]||'👤';document.getElementById('rmRoleTitle').textContent=titles[rmCurrentRole]||'Registration';['rmMobile','rmOTP'].forEach(function(id){document.getElementById(id).value='';});['rmMobileMsg','rmOTPMsg'].forEach(function(id){document.getElementById(id).textContent='';});['rmMobileBtn','rmOTPBtn'].forEach(function(id){document.getElementById(id).style.display='none';});['rmStepMobile','rmStepOTP','rmStepPatientForm','rmStepClinicForm','rmStepSuccess'].forEach(function(id,i){document.getElementById(id).style.display=i===0?'block':'none';});var o=document.getElementById('registerModalOverlay'),s=document.getElementById('registerModalSheet');o.style.opacity='1';o.style.pointerEvents='all';setTimeout(function(){s.style.transform='translateY(0)';},10);}
-function closeRegisterModal(){var o=document.getElementById('registerModalOverlay'),s=document.getElementById('registerModalSheet');s.style.transform='translateY(100%)';setTimeout(function(){o.style.opacity='0';o.style.pointerEvents='none';},380);}
-function rmDetect(){var mobile=document.getElementById('rmMobile').value.trim(),msg=document.getElementById('rmMobileMsg'),btn=document.getElementById('rmMobileBtn');if(mobile.length===10){if(demoUsers[mobile]){msg.innerHTML='<span style="color:#FF6B6B;font-weight:600;">&#10007; Already registered. <a onclick="closeRegisterModal();openLoginModal()" style="color:#00C9A7;cursor:pointer;text-decoration:underline;">Please Login</a></span>';btn.style.display='none';}else{msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">&#10003; New number! OTP will be sent.</span>';btn.style.display='block';}}else{msg.textContent='';btn.style.display='none';}}
-function rmSendOTP(){rmCurrentMobile=document.getElementById('rmMobile').value.trim();document.getElementById('rmOTPSubtitle').textContent='OTP sent to +91 '+rmCurrentMobile;document.getElementById('rmStepMobile').style.display='none';document.getElementById('rmStepOTP').style.display='block';}
-function rmVerifyOTP(){var otp=document.getElementById('rmOTP').value.trim(),msg=document.getElementById('rmOTPMsg'),btn=document.getElementById('rmOTPBtn');if(otp.length===4){if(otp==='1234'){msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">✅ Mobile Verified!</span>';btn.style.display='block';}else{msg.innerHTML='<span style="color:#FF6B6B;">❌ Invalid OTP. Try 1234</span>';btn.style.display='none';}}else{msg.textContent='';btn.style.display='none';}}
-function rmConfirmOTP(){document.getElementById('rmStepOTP').style.display='none';if(rmCurrentRole==='clinic'){document.getElementById('rmStepClinicForm').style.display='block';}else{document.getElementById('rmStepPatientForm').style.display='block';}}
-function rmBackToMobile(){document.getElementById('rmStepOTP').style.display='none';document.getElementById('rmStepMobile').style.display='block';}
-function rmSubmitPatient(){var name=document.getElementById('rmName').value.trim(),dob=document.getElementById('rmDob').value,gender=document.getElementById('rmGender').value,location=document.getElementById('rmLocation').value.trim();if(!name||!dob||!gender||!location){alert('Please fill all required fields');return;}sessionStorage.setItem('halsaa_loggedin',JSON.stringify({name:name,dob:dob,gender:gender,location:location,mobile:rmCurrentMobile,role:'patient'}));document.getElementById('rmStepPatientForm').style.display='none';document.getElementById('rmStepSuccess').style.display='block';document.getElementById('rmSuccessTitle').textContent='Welcome, '+name+'!';document.getElementById('rmSuccessMsg').textContent='Account created! Redirecting to Patient Dashboard...';setTimeout(function(){window.location.href='halsaa-patient-responsive.html';},2000);}
-function rmSubmitClinic(){var adminName=document.getElementById('rmClinicAdminName').value.trim(),clinicName=document.getElementById('rmClinicName').value.trim(),addr=document.getElementById('rmClinicAddr').value.trim(),type=document.getElementById('rmClinicType').value;if(!adminName||!clinicName||!addr||!type){alert('Please fill all required fields');return;}document.getElementById('rmStepClinicForm').style.display='none';document.getElementById('rmStepSuccess').style.display='block';document.getElementById('rmSuccessTitle').textContent='✅ Request Submitted!';document.getElementById('rmSuccessMsg').innerHTML='Thank you, <b>'+adminName+'</b>!<br>Our team will contact you within <b>24 hours</b> to set up <b>'+clinicName+'</b> on HALSAA.';var btn=document.querySelector('#rmStepSuccess button');btn.textContent='Close';btn.onclick=closeRegisterModal;}
-var _lmo=document.getElementById('loginModalOverlay'); if(_lmo)_lmo.addEventListener('click',function(e){if(e.target===this)closeLoginModal();});
-var _rmo=document.getElementById('registerModalOverlay'); if(_rmo)_rmo.addEventListener('click',function(e){if(e.target===this)closeRegisterModal();});
-window.openLoginModal=openLoginModal;window.closeLoginModal=closeLoginModal;window.lmDetect=lmDetect;window.lmSendOTP=lmSendOTP;window.lmVerifyOTP=lmVerifyOTP;window.lmConfirmOTP=lmConfirmOTP;window.lmGoToDash=lmGoToDash;window.lmBackToMobile=lmBackToMobile;
-window.openRegisterModal=openRegisterModal;window.closeRegisterModal=closeRegisterModal;window.rmDetect=rmDetect;window.rmSendOTP=rmSendOTP;window.rmVerifyOTP=rmVerifyOTP;window.rmConfirmOTP=rmConfirmOTP;window.rmBackToMobile=rmBackToMobile;window.rmSubmitPatient=rmSubmitPatient;window.rmSubmitClinic=rmSubmitClinic;
+// ════════════════════════════════════════════
+//  HALSAA AUTH — localStorage based
+// ════════════════════════════════════════════
+const roleInfo={
+  patient:     {icon:'👤',  title:'Patient Login',      dash:'halsaa-patient-responsive__5_.html'},
+  receptionist:{icon:'💁',  title:'Receptionist Login',  dash:'halsaa-receptionist-responsive__2_.html'},
+  doctor:      {icon:'👨‍⚕️', title:'Doctor Login',        dash:'halsaa-doctor-responsive__1_.html'},
+  lab:         {icon:'🧪',  title:'Lab Tech Login',      dash:'halsaa-lab-responsive.html'},
+  admin:       {icon:'🏥',  title:'Clinic Admin Login',  dash:'halsaa-admin-responsive.html'}
+};
+
+// Seed demo users into localStorage on first load so they are never lost
+(function seedDemoUsers(){
+  var demos=[
+    {mobile:'9876543210',roles:['patient'],   name:'Ramesh Kumar',  role:'patient'},
+    {mobile:'9999999999',roles:['patient'],   name:'Demo Patient',  role:'patient'},
+    {mobile:'8888888888',roles:['doctor','admin'], name:'Dr. Ramesh Kumar', role:'doctor'},
+    {mobile:'7777777777',roles:['receptionist'],   name:'Lakshmi Reddy',   role:'receptionist'},
+    {mobile:'6666666666',roles:['lab'],        name:'Lab Tech',      role:'lab'},
+    {mobile:'5555555555',roles:['admin'],      name:'Clinic Admin',  role:'admin'}
+  ];
+  demos.forEach(function(u){
+    var key='halsaa_user_'+u.mobile;
+    if(!localStorage.getItem(key)){
+      localStorage.setItem(key, JSON.stringify(u));
+    }
+  });
+})();
+
+function hlGetUser(mobile){
+  var v=localStorage.getItem('halsaa_user_'+mobile);
+  return v?JSON.parse(v):null;
+}
+function hlSaveUser(data){
+  localStorage.setItem('halsaa_user_'+data.mobile, JSON.stringify(data));
+}
+function hlSetSession(data){
+  // session for current tab — used by dashboards to show name etc.
+  sessionStorage.setItem('halsaa_session', JSON.stringify(data));
+}
+
+var lmCurrentRole='patient', lmCurrentMobile='', rmCurrentRole='patient', rmCurrentMobile='';
+
+// ── LOGIN MODAL ──
+function openLoginModal(role){
+  lmCurrentRole=role||'patient';
+  var info=roleInfo[lmCurrentRole]||roleInfo.patient;
+  document.getElementById('lmRoleIcon').textContent=info.icon;
+  document.getElementById('lmRoleTitle').textContent=info.title;
+  ['lmMobile','lmOTP'].forEach(function(id){document.getElementById(id).value='';});
+  ['lmMobileMsg','lmOTPMsg'].forEach(function(id){document.getElementById(id).textContent='';});
+  ['lmMobileBtn','lmOTPBtn'].forEach(function(id){document.getElementById(id).style.display='none';});
+  document.getElementById('lmStepMobile').style.display='block';
+  document.getElementById('lmStepOTP').style.display='none';
+  document.getElementById('lmStepRoles').style.display='none';
+  var o=document.getElementById('loginModalOverlay'),s=document.getElementById('loginModalSheet');
+  o.style.opacity='1'; o.style.pointerEvents='all';
+  setTimeout(function(){s.style.transform='translateY(0)';},10);
+}
+function closeLoginModal(){
+  var o=document.getElementById('loginModalOverlay'),s=document.getElementById('loginModalSheet');
+  s.style.transform='translateY(100%)';
+  setTimeout(function(){o.style.opacity='0';o.style.pointerEvents='none';},380);
+}
+function lmDetect(){
+  var mobile=document.getElementById('lmMobile').value.trim();
+  var msg=document.getElementById('lmMobileMsg');
+  var btn=document.getElementById('lmMobileBtn');
+  if(mobile.length===10){
+    var u=hlGetUser(mobile);
+    if(u){
+      msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">&#10003; Welcome back! OTP will be sent.</span>';
+      btn.style.display='block';
+    } else {
+      msg.innerHTML='<span style="color:#FF6B6B;font-weight:600;">&#10007; User not found. <a onclick="closeLoginModal();openRegisterModal()" style="color:#00C9A7;cursor:pointer;text-decoration:underline;">Please Register</a></span>';
+      btn.style.display='none';
+    }
+  } else { msg.textContent=''; btn.style.display='none'; }
+}
+function lmSendOTP(){
+  lmCurrentMobile=document.getElementById('lmMobile').value.trim();
+  document.getElementById('lmOTPSubtitle').textContent='OTP sent to +91 '+lmCurrentMobile;
+  document.getElementById('lmStepMobile').style.display='none';
+  document.getElementById('lmStepOTP').style.display='block';
+}
+function lmVerifyOTP(){
+  var otp=document.getElementById('lmOTP').value.trim();
+  var msg=document.getElementById('lmOTPMsg');
+  var btn=document.getElementById('lmOTPBtn');
+  if(otp.length===4){
+    if(otp==='1234'){
+      msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">✅ OTP Verified!</span>';
+      btn.style.display='block';
+    } else {
+      msg.innerHTML='<span style="color:#FF6B6B;">❌ Invalid OTP. Try 1234</span>';
+      btn.style.display='none';
+    }
+  } else { msg.textContent=''; btn.style.display='none'; }
+}
+function lmConfirmOTP(){
+  var u=hlGetUser(lmCurrentMobile);
+  var roles=u?u.roles:[lmCurrentRole];
+  // restore session so dashboard can read logged-in user
+  if(u){ hlSetSession({mobile:lmCurrentMobile, name:u.name, role:roles[0], roles:roles}); }
+  if(roles.length>1){
+    document.getElementById('lmStepOTP').style.display='none';
+    document.getElementById('lmStepRoles').style.display='block';
+    var list=document.getElementById('lmRoleList'); list.innerHTML='';
+    roles.forEach(function(r){
+      var info=roleInfo[r]||roleInfo.patient;
+      var a=document.createElement('a');
+      a.style.cssText='display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid rgba(0,201,167,.2);border-radius:13px;cursor:pointer;margin-bottom:8px;background:#fff;';
+      a.innerHTML='<span style="font-size:1.6rem;">'+info.icon+'</span><div style="flex:1;font-size:.88rem;font-weight:700;color:#0D2B26;">'+info.title.replace(' Login','')+'</div><span style="font-size:.75rem;color:#00C9A7;font-weight:700;">Open &#8594;</span>';
+      a.onclick=(function(role){return function(){lmGoToDash(role);};})(r);
+      list.appendChild(a);
+    });
+  } else { lmGoToDash(roles[0]); }
+}
+function lmGoToDash(role){
+  var info=roleInfo[role]||roleInfo.patient;
+  var u=hlGetUser(lmCurrentMobile);
+  if(u){ hlSetSession({mobile:lmCurrentMobile,name:u.name,role:role,roles:u.roles}); }
+  localStorage.setItem('halsaa_last_mobile', lmCurrentMobile);
+  closeLoginModal();
+  setTimeout(function(){window.location.href=info.dash;},400);
+}
+function lmBackToMobile(){
+  document.getElementById('lmStepOTP').style.display='none';
+  document.getElementById('lmStepMobile').style.display='block';
+}
+
+// ── REGISTER MODAL ──
+function openRegisterModal(role){
+  rmCurrentRole=role||'patient';
+  var icons={patient:'👤',clinic:'🏥'};
+  var titles={patient:'Patient Registration',clinic:'Clinic / Lab Registration'};
+  document.getElementById('rmRoleIcon').textContent=icons[rmCurrentRole]||'👤';
+  document.getElementById('rmRoleTitle').textContent=titles[rmCurrentRole]||'Registration';
+  ['rmMobile','rmOTP'].forEach(function(id){document.getElementById(id).value='';});
+  ['rmMobileMsg','rmOTPMsg'].forEach(function(id){document.getElementById(id).textContent='';});
+  ['rmMobileBtn','rmOTPBtn'].forEach(function(id){document.getElementById(id).style.display='none';});
+  ['rmStepMobile','rmStepOTP','rmStepPatientForm','rmStepClinicForm','rmStepSuccess'].forEach(function(id,i){
+    document.getElementById(id).style.display=i===0?'block':'none';
+  });
+  var o=document.getElementById('registerModalOverlay'),s=document.getElementById('registerModalSheet');
+  o.style.opacity='1'; o.style.pointerEvents='all';
+  setTimeout(function(){s.style.transform='translateY(0)';},10);
+}
+function closeRegisterModal(){
+  var o=document.getElementById('registerModalOverlay'),s=document.getElementById('registerModalSheet');
+  s.style.transform='translateY(100%)';
+  setTimeout(function(){o.style.opacity='0';o.style.pointerEvents='none';},380);
+}
+function rmDetect(){
+  var mobile=document.getElementById('rmMobile').value.trim();
+  var msg=document.getElementById('rmMobileMsg');
+  var btn=document.getElementById('rmMobileBtn');
+  if(mobile.length===10){
+    var u=hlGetUser(mobile);
+    if(u){
+      msg.innerHTML='<span style="color:#FF6B6B;font-weight:600;">&#10007; Already registered. <a onclick="closeRegisterModal();openLoginModal()" style="color:#00C9A7;cursor:pointer;text-decoration:underline;">Please Login</a></span>';
+      btn.style.display='none';
+    } else {
+      msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">&#10003; New number! OTP will be sent.</span>';
+      btn.style.display='block';
+    }
+  } else { msg.textContent=''; btn.style.display='none'; }
+}
+function rmSendOTP(){
+  rmCurrentMobile=document.getElementById('rmMobile').value.trim();
+  document.getElementById('rmOTPSubtitle').textContent='OTP sent to +91 '+rmCurrentMobile;
+  document.getElementById('rmStepMobile').style.display='none';
+  document.getElementById('rmStepOTP').style.display='block';
+}
+function rmVerifyOTP(){
+  var otp=document.getElementById('rmOTP').value.trim();
+  var msg=document.getElementById('rmOTPMsg');
+  var btn=document.getElementById('rmOTPBtn');
+  if(otp.length===4){
+    if(otp==='1234'){
+      msg.innerHTML='<span style="color:#00C9A7;font-weight:700;">✅ Mobile Verified!</span>';
+      btn.style.display='block';
+    } else {
+      msg.innerHTML='<span style="color:#FF6B6B;">❌ Invalid OTP. Try 1234</span>';
+      btn.style.display='none';
+    }
+  } else { msg.textContent=''; btn.style.display='none'; }
+}
+function rmConfirmOTP(){
+  document.getElementById('rmStepOTP').style.display='none';
+  if(rmCurrentRole==='clinic'){
+    document.getElementById('rmStepClinicForm').style.display='block';
+  } else {
+    document.getElementById('rmStepPatientForm').style.display='block';
+  }
+}
+function rmBackToMobile(){
+  document.getElementById('rmStepOTP').style.display='none';
+  document.getElementById('rmStepMobile').style.display='block';
+}
+function rmSubmitClinic(){
+  var adminName=document.getElementById('rmClinicAdminName').value.trim();
+  var clinicName=document.getElementById('rmClinicName').value.trim();
+  var addr=document.getElementById('rmClinicAddr').value.trim();
+  var type=document.getElementById('rmClinicType').value;
+  if(!adminName||!clinicName||!addr||!type){alert('Please fill all required fields');return;}
+  document.getElementById('rmStepClinicForm').style.display='none';
+  document.getElementById('rmStepSuccess').style.display='block';
+  document.getElementById('rmSuccessTitle').textContent='✅ Request Submitted!';
+  document.getElementById('rmSuccessMsg').innerHTML='Thank you, <b>'+adminName+'</b>!<br>Our team will contact you within <b>24 hours</b> to set up <b>'+clinicName+'</b> on HALSAA.';
+  var btn=document.querySelector('#rmStepSuccess button');
+  btn.textContent='Close'; btn.onclick=closeRegisterModal;
+}
+var _lmo=document.getElementById('loginModalOverlay');
+if(_lmo)_lmo.addEventListener('click',function(e){if(e.target===this)closeLoginModal();});
+var _rmo=document.getElementById('registerModalOverlay');
+if(_rmo)_rmo.addEventListener('click',function(e){if(e.target===this)closeRegisterModal();});
+window.openLoginModal=openLoginModal; window.closeLoginModal=closeLoginModal;
+window.lmDetect=lmDetect; window.lmSendOTP=lmSendOTP; window.lmVerifyOTP=lmVerifyOTP;
+window.lmConfirmOTP=lmConfirmOTP; window.lmGoToDash=lmGoToDash; window.lmBackToMobile=lmBackToMobile;
+window.openRegisterModal=openRegisterModal; window.closeRegisterModal=closeRegisterModal;
+window.rmDetect=rmDetect; window.rmSendOTP=rmSendOTP; window.rmVerifyOTP=rmVerifyOTP;
+window.rmConfirmOTP=rmConfirmOTP; window.rmBackToMobile=rmBackToMobile;
+window.rmSubmitPatient=rmSubmitPatient; window.rmSubmitClinic=rmSubmitClinic;
 
 // ════ CONTACT MODAL ════
 function openContactModal(){
@@ -2273,13 +2472,24 @@ function rmSubmitPatient(){
   var age=ageEl?ageEl.value:'';
   var gender=document.getElementById('rmGender').value;
   var location=document.getElementById('rmLocation').value.trim();
+  var blood=document.getElementById('rmBlood').value;
   if(!name||(!dob&&!age)||!gender||!location){alert('Please fill all required fields');return;}
-  sessionStorage.setItem('halsaa_loggedin',JSON.stringify({name:name,dob:dob,age:age,gender:gender,location:location,mobile:rmCurrentMobile,role:'patient'}));
+  var userData={mobile:rmCurrentMobile, name:name, dob:dob, age:age, gender:gender,
+    location:location, blood:blood, role:'patient', roles:['patient']};
+  // Save permanently to localStorage
+  hlSaveUser(userData);
+  // Remember last mobile
+  localStorage.setItem('halsaa_last_mobile', rmCurrentMobile);
+  // Set session for this tab
+  hlSetSession(userData);
   document.getElementById('rmStepPatientForm').style.display='none';
   document.getElementById('rmStepSuccess').style.display='block';
   document.getElementById('rmSuccessTitle').textContent='Welcome, '+name+'!';
   document.getElementById('rmSuccessMsg').textContent='Account created! Redirecting to Patient Dashboard...';
-  setTimeout(function(){window.location.href='halsaa-patient-responsive.html';},2000);
+  var btn=document.querySelector('#rmStepSuccess button');
+  btn.textContent='Go to Patient Dashboard \u2192';
+  btn.onclick=function(){window.location.href='halsaa-patient-responsive__5_.html';};
+  setTimeout(function(){window.location.href='halsaa-patient-responsive__5_.html';},2000);
 }
 var _cmo=document.getElementById('contactModalOverlay');
 if(_cmo)_cmo.addEventListener('click',function(e){if(e.target===this)closeContactModal();});
